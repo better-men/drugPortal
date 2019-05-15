@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import ProductList from './views/product/ProductList.vue'
 import ProductEdit from './views/product/ProductEdit.vue'
 import ProductInsert from './views/product/ProductInsert.vue'
+import ProductCategoryList from './views/product-category/ProductCategoryList.vue'
+import ProductCategoryInsert from './views/product-category/ProductCategoryInsert.vue'
 import PurchasePlan from './views/purchase-plan/purchase-plan'
 import PurchaseOrder from './views/purchase-order/purchase-order'
 import User from './views/user/UserList.vue'
@@ -13,7 +15,9 @@ import Dic from './views/dic/dic.vue'
 import UserEdit from './views/user/UserEdit'
 import UserInsert from './views/user/UserInsert'
 import InBound from './views/in-bound/in-bound'
+import InBoundInsert from './views/in-bound/in-bound-insert'
 import OutBound from './views/out-bound/out-bound'
+import OutBoundInsert from './views/out-bound/out-bound-insert'
 import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
@@ -37,6 +41,15 @@ let routes = [{
         iconCls: 'iconfont el-icon-erp-ditu_dingwei_o',
         leaf: false, //只有一个节点
         children: [{
+                path: '/productCategoryList',
+                component: ProductCategoryList,
+                name: '库存分类'
+            }, {
+                path: '/productCategoryInsert',
+                component: ProductCategoryInsert,
+                hidden: true,
+                name: '新增分类'
+            }, {
                 path: '/productList',
                 component: ProductList,
                 name: '库存列表'
@@ -47,9 +60,21 @@ let routes = [{
                 name: '入库管理'
             },
             {
+                path: '/inBoundInsert',
+                component: InBoundInsert,
+                hidden: true,
+                name: '入库'
+            },
+            {
                 path: '/outBound',
                 component: OutBound,
                 name: '出库管理'
+            },
+            {
+                path: '/outBoundInsert',
+                component: OutBoundInsert,
+                hidden: true,
+                name: '入库'
             }
         ]
     },

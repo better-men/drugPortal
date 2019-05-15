@@ -62,7 +62,7 @@
         </el-form-item>
         <el-form-item label-width="200px" style="width: 460px">
             <el-button type="primary" @click="submitForm">提交</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="goBack">取消</el-button>
         </el-form-item>
     </el-form>
 </section>

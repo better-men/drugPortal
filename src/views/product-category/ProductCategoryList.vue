@@ -2,41 +2,41 @@
 <section>
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="filters">
-            <el-form-item style="float: right">
-                <el-button type="danger" v-on:click="clearFilter">清空查询</el-button>
+            <el-form-item style="float: left">
+                <router-link :to="{
+                        path:'/productCategoryInsert'
+                    }">
+                    <el-button type="primary" size="small">新增</el-button>
+                </router-link>
             </el-form-item>
+            <!-- <el-form-item style="float: right">
+                <el-button type="danger" v-on:click="clearFilter">清空查询</el-button>
+            </el-form-item> -->
             <el-form-item style="float: right">
                 <el-button type="primary" v-on:click="filter">查询</el-button>
             </el-form-item>
             <el-form-item style="float: right">
                 <div class="search-input">
-                    <el-input v-model="filters.repertoryName" placeholder="输入库存名称"></el-input>
+                    <el-input v-model="filters.name" placeholder="输入分类名称"></el-input>
                 </div>
             </el-form-item>
             <!-- <el-form-item style="float: right">
-                <el-input v-model="filters.repertoryClass" placeholder="输入库存分类"></el-input>
+                <el-select v-model="filters.category" placeholder="选择货品分类">
+                    <el-option label="驱虫药" value="1"></el-option>
+                    <el-option label="五联疫苗" value="2"></el-option>
+                    <el-option label="三联疫苗" value="3"></el-option>
+                </el-select>
             </el-form-item> -->
         </el-form>
 
     </el-col>
     <!--列表-->
     <el-table :data="productList.slice((currentPage-1)*pagesize,currentPage*pagesize)" highlight-current-row v-loading="listLoading" style="width: 100%;">
-        <el-table-column prop="repertoryName" label="库存名称">
+        <el-table-column prop="className" label="分类名称" width="200px">
         </el-table-column>
-        <el-table-column prop="repertoryClass" label="库存分类">
+        <el-table-column prop="classDesc" label="分类描述">
         </el-table-column>
-        <el-table-column prop="repertoryDesc" label="库存描述">
-        </el-table-column>
-        <el-table-column prop="repertoryNum" label="余量">
-            <template slot-scope="scope">
-                <span :style="getColor(scope.row.repertoryNum)">{{scope.row.repertoryNum}}</span>
-            </template>
-        </el-table-column>
-        <el-table-column prop="createdTime" width="180" label="创建时间">
-        </el-table-column>
-        <el-table-column prop="createdBy" label="创建人">
-        </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="120px">
             <template slot-scope="scope" style="display: flex">
                 <!-- <el-button type="danger" size="small" v-on:click="deleteProductType(scope.row.pId)">删除</el-button> -->
             </template>
@@ -49,14 +49,13 @@
 
 <script>
 import {
-    allBound
+    allClass
 } from '../../api/api'
 export default {
     data() {
         return {
             filters: {
-                repertoryName: '',
-                repertoryClass: ''
+                className: '',
             },
             productList: [],
             productTypes: [],
@@ -70,17 +69,16 @@ export default {
     },
     methods: {
         getProduct() {
-            allBound({}).then(data => {
-                this.productList = data.data.resultValue;
-                this.realProductList = this.productList;
-            });
+            allClass().then(data => {
+                this.productList = data.data.resultValue
+                this.realProductList = data.data.resultValue
+            })
         },
         filter() {
-            this.productList = this.realProductList.filter(el => el.repertoryName.indexOf(this.filters.repertoryName) > -1)
+            this.productList = this.realProductList.filter(el => el.className.indexOf(this.filters.name) > -1)
         },
         clearFilter() {
-            this.filters.repertoryName = "";
-            this.filters.repertoryClass = "";
+            this.filters.name = "";
             this.productList = this.realProductList;
         },
         handleSizeChange(size) {
@@ -88,12 +86,6 @@ export default {
         },
         handleCurrentChange(currentPage) {
             this.currentPage = currentPage;
-        },
-        filterTop(value, row) {
-            return row.setTop === value;
-        },
-        filterDisable(value, row) {
-            return row.disable === value;
         },
         deleteProductType(pId) {
             this.$confirm('确认删除该产品吗？', '提示', {

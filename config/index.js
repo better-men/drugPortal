@@ -13,7 +13,7 @@ module.exports = {
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
         assetsPublicPath: './',
-        
+
         /**
          * Source Maps
          */
@@ -40,13 +40,13 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/blakk/': {
-                target: 'http://39.108.82.48/blakk/',
+            '/drug/': {
+                target: 'http://101.132.109.63:8080/drug/',
                 // target: 'http://localhost:8080',
                 changeOrigin: true,
                 //路径重写
                 pathRewrite: {
-                    '^/blakk': ''
+                    '^/drug': ''
                 }
             }
         },

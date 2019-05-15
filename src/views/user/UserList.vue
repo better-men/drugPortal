@@ -3,13 +3,13 @@
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="filters">
 
-                <!-- <el-form-item style="float: left">
+                <el-form-item style="float: left">
                     <router-link :to="{
                                 path:'/userInsert'
                             }">
                         <el-button type="primary" size="small">新增</el-button>
                     </router-link>
-                </el-form-item> -->
+                </el-form-item>
 
                 <el-form-item style="float: right">
                     <el-button type="primary" v-on:click="selectUserByAccount">查询</el-button>
@@ -47,7 +47,7 @@
                             disable-transitions>{{scope.row.disable}}</el-tag>
                 </template>
             </el-table-column> -->
-            <!-- <el-table-column label="操作">
+            <el-table-column label="操作">
                 <template slot-scope="scope" style="display: flex">
                     <router-link
                             :to="{
@@ -60,7 +60,7 @@
                     </router-link>
                     <el-button type="danger" size="small"  v-on:click="deleteUser(scope.row.userId)">删除</el-button>
                 </template>
-            </el-table-column> -->
+            </el-table-column>
         </el-table>
         <el-pagination
                 @size-change="handleSizeChange"

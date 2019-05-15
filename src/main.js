@@ -26,7 +26,7 @@ const router = new VueRouter({
 });
 router.beforeEach((to, from, next) => {
     if (to.path) {
-        
+
     }
     next()
 })
@@ -101,7 +101,7 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         next()
     }else{
-        axios.get("/blakk/getCurrentUser").then(function (res) {
+        axios.get("/drug/getCurrentUser").then(function (res) {
             let user = null;
             if (!isNullOrEmpty(res.data.resultValue.userAccount)) {
                 user = res.data.resultValue.userAccount;

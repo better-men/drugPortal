@@ -106,7 +106,7 @@
 			//退出登录
 			logout: function () {
                 this.$router.push('/login');
-                this.$http.get("/blakk/logout").then();
+                this.$http.get("/drug/logout").then();
 			},
 			//折叠导航栏
 			collapse:function(){
@@ -115,7 +115,7 @@
 		},
 		mounted() {
 		    var that = this;
-            this.$http.get("/blakk/getCurrentUser").then(function (res) {
+            this.$http.get(`/drug/getCurrentUser?timestamp=${(new Date()).getTime()}`).then(function (res) {
 				that.sysUserName = res.data.resultValue.userAccount;
             })
             window.onresize = function temp() {

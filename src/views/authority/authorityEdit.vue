@@ -4,12 +4,15 @@
     </el-tree>
     <div class="" style="width: 100%;text-align: center;margin-top:20px">
         <el-button type="primary" @click="submitForm">提交修改</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="goBack">取消</el-button>
     </div>
 </section>
 </template>
 
 <script>
+import {
+    updateAuthority
+} from '../../api/api'
 export default {
     name: '',
     data() {
@@ -25,10 +28,16 @@ export default {
     methods: {
         getParams() {
             this.user = this.$route.query.user
+            console.log(this.user)
         },
         submitForm() {
             console.log(this.$refs.tree.getCheckedKeys().filter(e => e !== '/'))
             let list = this.$refs.tree.getCheckedKeys().filter(e => e !== '/')
+            updateAuthority({userId: this.user.userId, menuName: list.join(',')}).then(data => {
+                if (data.data.resultDesc === "SUCCESS") {
+                    this.$router.back(-1);
+                }
+            })
         },
         goBack() {
             this.$router.back(-1);
@@ -42,7 +51,7 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            this.$refs.tree.setCheckedKeys(["/cover", "/user", "/dic"])
+            this.$refs.tree.setCheckedKeys(this.user.role.split(','))
         })
     }
 }
