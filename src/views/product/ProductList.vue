@@ -2,6 +2,13 @@
 <section>
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="filters">
+            <el-form-item style="float: left">
+                <router-link :to="{
+                    path:'/productInsert'
+                }">
+                    <el-button type="primary" size="small">新增</el-button>
+                </router-link>
+            </el-form-item>
             <el-form-item style="float: right">
                 <el-button type="danger" v-on:click="clearFilter">清空查询</el-button>
             </el-form-item>

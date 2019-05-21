@@ -112,6 +112,10 @@ export const allBound = params => {
     return axios.get(`/drug/repertory/all`)
 }
 
+export const insertRepertory = params => {
+    return axios.post(`/drug/repertory/insert`, params)
+}
+
 export const allInBound = params => {
     return axios.get(`/drug/bound/allInBound`)
 }

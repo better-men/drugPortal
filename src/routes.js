@@ -55,6 +55,11 @@ let routes = [{
                 path: '/productList',
                 component: ProductList,
                 name: '库存列表'
+            },{
+                path: '/productInsert',
+                component: ProductInsert,
+                name: '新增库存',
+                hidden: true
             },
             {
                 path: '/inBound',
