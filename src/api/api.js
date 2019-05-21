@@ -127,3 +127,35 @@ export const allOutBound = params => {
 export const outBound = params => {
     return axios.post(`/drug/bound/outBound`, params)
 }
+
+export const insertPurchasePlan = params => {
+    return axios.post(`/drug/purchasePlan/insert`, params)
+}
+
+export const updatePurchasePlan = params => {
+    return axios.post(`/drug/purchasePlan/update`, params)
+}
+
+export const deletePurchasePlan = params => {
+    return axios.post(`/drug/purchasePlan/delete`, params)
+}
+
+export const allPurchasePlan = params => {
+    return axios.get(`/drug/purchasePlan/all`, params)
+}
+
+export const allPurchaseOrder = params => {
+    return axios.get(`/drug/purchaseOrder/all`, params)
+}
+
+export const insertPurchaseOrder = params => {
+    return axios.post(`/drug/purchaseOrder/insert`, params)
+}
+
+export const updatePurchaseOrder = params => {
+    return axios.post(`/drug/purchaseOrder/update`, params)
+}
+
+export const deletePurchaseOrder = params => {
+    return axios.post(`/drug/purchaseOrder/delete`, params)
+}

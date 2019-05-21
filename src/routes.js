@@ -7,6 +7,8 @@ import ProductInsert from './views/product/ProductInsert.vue'
 import ProductCategoryList from './views/product-category/ProductCategoryList.vue'
 import ProductCategoryInsert from './views/product-category/ProductCategoryInsert.vue'
 import PurchasePlan from './views/purchase-plan/purchase-plan'
+import PurchasePlanInsert from './views/purchase-plan/purchase-plan-insert'
+import PurchaseOrderInsert from './views/purchase-order/purchase-order-insert'
 import PurchaseOrder from './views/purchase-order/purchase-order'
 import User from './views/user/UserList.vue'
 import Authority from './views/authority/authority.vue'
@@ -89,10 +91,21 @@ let routes = [{
             path: '/purchasePlan',
             component: PurchasePlan,
             name: '采购计划'
+
         }, {
+            path: '/purchasePlanInsert',
+            component: PurchasePlanInsert,
+            hidden: true,
+            name: '编辑采购计划'
+        },{
             path: '/purchaseOrder',
             component: PurchaseOrder,
             name: '采购订单'
+        }, {
+            path: '/purchaseOrderInsert',
+            component: PurchaseOrderInsert,
+            hidden: true,
+            name: '编辑采购订单'
         }]
     },
     // {

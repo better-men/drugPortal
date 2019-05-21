@@ -2,7 +2,14 @@
 <section>
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="filters">
-            <el-form-item style="float: right">
+            <!-- <el-form-item style="float: left">
+                <router-link :to="{
+                        path:'/purchaseOrderInsert'
+                    }">
+                    <el-button type="primary" size="small">新增</el-button>
+                </router-link>
+            </el-form-item> -->
+            <!-- <el-form-item style="float: right">
                 <el-button type="danger" v-on:click="clearFilter">清空查询</el-button>
             </el-form-item>
             <el-form-item style="float: right">
@@ -10,48 +17,39 @@
             </el-form-item>
             <el-form-item style="float: right">
                 <div class="search-input">
-                    <el-input v-model="filters.name" placeholder="输入货品名称"></el-input>
+                    <el-input v-model="filters.name" placeholder="输入库存名称"></el-input>
                 </div>
-            </el-form-item>
-            <el-form-item style="float: right">
-                <el-select v-model="filters.category" placeholder="选择货品分类">
-                    <el-option label="驱虫药" value="1"></el-option>
-                    <el-option label="五联疫苗" value="2"></el-option>
-                    <el-option label="三联疫苗" value="3"></el-option>
-                    <!-- <el-option
-                            v-for="item in productTypes"
-                            :key="item.ptName"
-                            :label="item.ptName"
-                            :value="item.ptId">
-                    </el-option> -->
-                </el-select>
-            </el-form-item>
+            </el-form-item> -->
         </el-form>
 
     </el-col>
     <!--列表-->
     <el-table :data="productList.slice((currentPage-1)*pagesize,currentPage*pagesize)" highlight-current-row v-loading="listLoading" style="width: 100%;">
-        <el-table-column prop="orderNo" label="采购单号">
+
+        <el-table-column prop="orderId" label="采购单号">
         </el-table-column>
-        <el-table-column prop="name" label="货品名称">
+        <el-table-column prop="planId" label="采购计划单号">
         </el-table-column>
-        <el-table-column prop="category" label="分类">
+        <el-table-column prop="purchaseDate" label="采购日期">
+            <template slot-scope="scope">
+              <span>{{scope.row.purchaseDate.substr(0, 10)}}</span>
+            </template>
         </el-table-column>
-        <el-table-column prop="code" label="编号">
-        </el-table-column>
-        <el-table-column prop="purchaseAmount" label="采购量">
+        <el-table-column prop="purchaseNum" label="采购数量">
         </el-table-column>
         <el-table-column prop="supplier" label="供应商">
         </el-table-column>
-        <el-table-column prop="purchaseDate" label="采购日期">
+        <el-table-column prop="createdTime" width="180" label="创建时间">
+            <template slot-scope="scope">
+              <span>{{scope.row.createdTime.substr(0, 11)}}</span>
+            </template>
         </el-table-column>
-        <el-table-column prop="createTime" width="180" label="创建时间">
+        <el-table-column prop="createdBy" label="创建人">
         </el-table-column>
-        <el-table-column prop="creator" label="创建人">
-        </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="80">
             <template slot-scope="scope" style="display: flex">
-                <!-- <el-button type="danger" size="small" v-on:click="deleteProductType(scope.row.pId)">删除</el-button> -->
+                <!-- <el-button type="primary" size="small" v-on:click="editroductType(scope.row)">编辑</el-button> -->
+                <el-button type="danger" size="small" v-on:click="deleteProductType(scope.row.orderId)">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -62,11 +60,9 @@
 
 <script>
 import {
-    listProduct,
-    selectProductByName,
-    deleteProduct,
-    listProductTypes,
-    getProductByNameAndPtId
+    allPurchaseOrder,
+    allBound,
+    deletePurchaseOrder
 } from '../../api/api'
 export default {
     data() {
@@ -83,52 +79,19 @@ export default {
             total: 0,
             page: 1,
             listLoading: false,
+            allBound: []
         };
     },
     methods: {
         getProduct: function() {
-            this.productList = [{
-                orderNo: 'CG201904050002',
-                name: '狂犬病疫苗',
-                code: 'kqb2099',
-                amount: 100,
-                category: '五联疫苗',
-                supplier: '广药集团',
-                purchaseDate: '2019-06-01',
-                purchaseAmount: '321',
-                createTime: '2019-03-02',
-                creator: 'admin'
-            }, {
-                orderNo: 'CG201904050003',
-                name: '传染病疫苗疫苗',
-                code: 'crb3092',
-                amount: 120,
-                category: '五联疫苗',
-                supplier: '广药集团',
-                purchaseDate: '2019-06-01',
-                purchaseAmount: '321',
-                createTime: '2019-03-02',
-                creator: 'admin'
-            }]
-            // listProduct({}).then(data => {
-            //     this.productList = data.data.resultValue;
-            //     for (var i = 0; i < this.productList.length; i++) {
-            //         if (!this.productList[i].setTop) {
-            //             this.productList[i].setTop = "否"
-            //         } else {
-            //             this.productList[i].setTop = "是"
-            //         }
-            //         if (this.productList[i].disable) {
-            //             this.productList[i].disable = "是"
-            //         } else {
-            //             this.productList[i].disable = "否"
-            //         }
-            //     }
-            //     this.realProductList = this.productList;
-            //     // listProductTypes({}).then(data => {
-            //     //     this.productTypes = data.data.resultValue;
-            //     // });
-            // });
+            allPurchaseOrder().then(data => {
+                this.productList = data.data.resultValue;
+                this.realProductList = this.productList;
+            });
+            allBound().then(data => {
+                this.allBound = data.data.resultValue
+                localStorage.setItem('allBound', JSON.stringify(this.allBound))
+            })
         },
         clearFilter: function() {
             this.filters.name = "";
@@ -157,6 +120,10 @@ export default {
                 }
             })
         },
+        getName(repertoryId) {
+            let item = this.allBound.find(el => el.repertoryId === repertoryId)
+            return item.repertoryName || ''
+        },
         handleSizeChange: function(size) {
             this.pagesize = size;
         },
@@ -175,8 +142,8 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                deleteProduct({
-                    "pId": pId
+                deletePurchaseOrder({
+                    "orderId": pId
                 }).then(data => {
                     if (data.data.resultDesc === "SUCCESS") {
                         this.$message.warning(`删除成功`);
@@ -184,6 +151,15 @@ export default {
                     }
                 })
             }).catch(() => {})
+        },
+        editroductType(row) {
+            this.$router.push({
+                path: '/purchaseOrderInsert',
+                query: {
+                    item: row,
+                    status: 'update'
+                }
+            })
         },
         getColor(amount) {
             if (Number(amount) < 50) {

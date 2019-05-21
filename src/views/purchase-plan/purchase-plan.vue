@@ -2,7 +2,14 @@
 <section>
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="filters">
-            <el-form-item style="float: right">
+            <el-form-item style="float: left">
+                <router-link :to="{
+                        path:'/purchasePlanInsert'
+                    }">
+                    <el-button type="primary" size="small">新增</el-button>
+                </router-link>
+            </el-form-item>
+            <!-- <el-form-item style="float: right">
                 <el-button type="danger" v-on:click="clearFilter">清空查询</el-button>
             </el-form-item>
             <el-form-item style="float: right">
@@ -10,51 +17,48 @@
             </el-form-item>
             <el-form-item style="float: right">
                 <div class="search-input">
-                    <el-input v-model="filters.name" placeholder="输入货品名称"></el-input>
+                    <el-input v-model="filters.name" placeholder="输入库存名称"></el-input>
                 </div>
-            </el-form-item>
-            <el-form-item style="float: right">
-                <el-select v-model="filters.category" placeholder="选择货品分类">
-                    <el-option label="驱虫药" value="1"></el-option>
-                    <el-option label="五联疫苗" value="2"></el-option>
-                    <el-option label="三联疫苗" value="3"></el-option>
-                    <!-- <el-option
-                            v-for="item in productTypes"
-                            :key="item.ptName"
-                            :label="item.ptName"
-                            :value="item.ptId">
-                    </el-option> -->
-                </el-select>
-            </el-form-item>
+            </el-form-item> -->
         </el-form>
 
     </el-col>
     <!--列表-->
     <el-table :data="productList.slice((currentPage-1)*pagesize,currentPage*pagesize)" highlight-current-row v-loading="listLoading" style="width: 100%;">
-        <el-table-column prop="name" label="货品名称">
+
+        <el-table-column prop="planId" label="采购计划单号">
         </el-table-column>
-        <el-table-column prop="category" label="分类">
-        </el-table-column>
-        <el-table-column prop="code" label="编号">
-        </el-table-column>
-        <el-table-column prop="purchaseAmount" label="采购量">
-        </el-table-column>
-        <el-table-column prop="amount" label="余量">
+        <el-table-column label="库存名称">
             <template slot-scope="scope">
-                <span :style="getColor(scope.row.amount)">{{scope.row.amount}}</span>
+                <span>{{getName(scope.row.repertoryId)}}</span>
             </template>
         </el-table-column>
-        <el-table-column prop="purchaseRequireDate" label="建议采购日期">
+        <el-table-column prop="planDate" label="建议采购日期">
+            <template slot-scope="scope">
+                <span>{{scope.row.planDate.substr(0, 11)}}</span>
+            </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态">
+        <el-table-column prop="reNum" label="余量">
         </el-table-column>
-        <el-table-column prop="createTime" width="180" label="创建时间">
+        <el-table-column prop="planNum" label="建议采购数量">
         </el-table-column>
-        <el-table-column prop="creator" label="创建人">
+        <el-table-column prop="planDate" label="采购状态">
+            <template slot-scope="scope">
+                <span>{{scope.row.purchaseStatus === 0 ? '代采购':'已采购'}}</span>
+            </template>
         </el-table-column>
-        <el-table-column label="操作">
-            <template slot-scope="scope" style="display: flex">
-                <!-- <el-button type="danger" size="small" v-on:click="deleteProductType(scope.row.pId)">删除</el-button> -->
+        <el-table-column prop="createdTime" width="180" label="创建时间">
+            <template slot-scope="scope">
+                <span>{{scope.row.createdTime.substr(0, 11)}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="createdBy" label="创建人">
+        </el-table-column>
+        <el-table-column label="操作" width="240">
+            <template slot-scope="scope" style="display: flex" v-if="scope.row.purchaseStatus === 0">
+                <el-button type="primary" size="small" v-on:click="editroductType(scope.row)">编辑</el-button>
+                <el-button type="danger" size="small" v-on:click="deleteProductType(scope.row.planId)">删除</el-button>
+                <el-button type="primary" size="small" v-on:click="purchase(scope.row)">发起采购</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -65,11 +69,9 @@
 
 <script>
 import {
-    listProduct,
-    selectProductByName,
-    deleteProduct,
-    listProductTypes,
-    getProductByNameAndPtId
+    allPurchasePlan,
+    allBound,
+    deletePurchasePlan
 } from '../../api/api'
 export default {
     data() {
@@ -86,50 +88,19 @@ export default {
             total: 0,
             page: 1,
             listLoading: false,
+            allBound: []
         };
     },
     methods: {
         getProduct: function() {
-            this.productList = [{
-                name: '狂犬病疫苗',
-                code: 'kqb2099',
-                amount: 100,
-                category: '五联疫苗',
-                purchaseRequireDate: '2019-06-01',
-                purchaseAmount: '321',
-                status: '已采购',
-                createTime: '2019-03-02',
-                creator: 'admin'
-            }, {
-                name: '传染病疫苗疫苗',
-                code: 'crb3092',
-                amount: 120,
-                category: '五联疫苗',
-                purchaseRequireDate: '2019-06-01',
-                purchaseAmount: '321',
-                status: '未采购',
-                createTime: '2019-03-02',
-                creator: 'admin'
-            }]
-            // listProduct({}).then(data => {
-            //     this.productList = data.data.resultValue;
-            //     for (var i = 0; i < this.productList.length; i++) {
-            //         if (!this.productList[i].setTop) {
-            //             this.productList[i].setTop = "否"
-            //         } else {
-            //             this.productList[i].setTop = "是"
-            //         }
-            //         if (this.productList[i].disable) {
-            //             this.productList[i].disable = "是"
-            //         } else {
-            //             this.productList[i].disable = "否"
-            //         }
-            //     }
-            //     this.realProductList = this.productList;
-            //     // listProductTypes({}).then(data => {
-            //     //     this.productTypes = data.data.resultValue;
-            //     // });
-            // });
+            allPurchasePlan().then(data => {
+                this.productList = data.data.resultValue;
+                this.realProductList = this.productList;
+            });
+            allBound().then(data => {
+                this.allBound = data.data.resultValue
+                localStorage.setItem('allBound', JSON.stringify(this.allBound))
+            })
         },
         clearFilter: function() {
             this.filters.name = "";
@@ -158,6 +129,10 @@ export default {
                 }
             })
         },
+        getName(repertoryId) {
+            let item = this.allBound.find(el => el.repertoryId === repertoryId)
+            return item.repertoryName || ''
+        },
         handleSizeChange: function(size) {
             this.pagesize = size;
         },
@@ -176,8 +151,8 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                deleteProduct({
-                    "pId": pId
+                deletePurchasePlan({
+                    "planId": pId
                 }).then(data => {
                     if (data.data.resultDesc === "SUCCESS") {
                         this.$message.warning(`删除成功`);
@@ -185,6 +160,23 @@ export default {
                     }
                 })
             }).catch(() => {})
+        },
+        editroductType(row) {
+            this.$router.push({
+                path: '/purchasePlanInsert',
+                query: {
+                    item: row
+                }
+            })
+        },
+        purchase(row) {
+            this.$router.push({
+                path: '/purchaseOrderInsert',
+                query: {
+                    item: row,
+                    status: 'create'
+                }
+            })
         },
         getColor(amount) {
             if (Number(amount) < 50) {
