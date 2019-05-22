@@ -40,7 +40,7 @@ let routes = [{
         path: '/',
         component: Home,
         name: '库存管理',
-        iconCls: 'iconfont el-icon-erp-ditu_dingwei_o',
+        iconCls: 'el-icon-house',
         leaf: false, //只有一个节点
         children: [{
                 path: '/productCategoryList',
@@ -91,7 +91,7 @@ let routes = [{
         component: Home,
         name: '采购管理',
         leaf: false, //只有一个节点
-        iconCls: 'iconfont el-icon-erp-ditu_diqiu_o', //图标样式class
+        iconCls: 'el-icon-shopping-cart-1', //图标样式class
         children: [{
             path: '/purchasePlan',
             component: PurchasePlan,
@@ -143,7 +143,7 @@ let routes = [{
         path: '/',
         component: Home,
         name: '基础管理',
-        iconCls: 'iconfont el-icon-erp-cangku_cangneishicao_o',
+        iconCls: 'el-icon-user',
         leaf: false, //只有一个节点
         children: [{
                 path: '/user',

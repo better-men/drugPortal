@@ -1,8 +1,10 @@
 
 <template>
     <div>
-        <img  src="~@/assets/login.jpg" style="width: 100%;height: 100%;position: fixed;z-index: -1;"/>
-        <el-form  ref="form" style="margin: 0 auto;position: absolute;top: 150px;left: 0;right: 0;" :model="user" :rules="rules2"  label-position="left" label-width="0px" class="demo-ruleForm login-container">
+        <!-- <img  src="~@/assets/login.jpg" style="width: 100%;height: 100%;position: fixed;z-index: -1;"/> -->
+        <img  src="~@/assets/bg.png" style="width: 100%;height: 100%;position: fixed;z-index: -1;"/>
+        <!-- <img  src="~./pet.png" style="width: 422px; position: absolute;top: 250px;left: 20%;"/> -->
+        <el-form  ref="form" style="position: absolute;top: 150px;right: 20%" :model="user" :rules="rules2"  label-position="left" label-width="0px" class="demo-ruleForm login-container">
             <h3 class="title">宠物医院药品管理系统</h3>
             <el-form-item prop="account">
                 <el-input type="text" v-model="userAccount" auto-complete="off" placeholder="账号"></el-input>

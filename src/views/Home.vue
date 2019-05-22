@@ -5,11 +5,11 @@
 				<el-col :span="10" class="logo">
 					<img style="position: relative;
 								top: 0;
-								height: 45px;width: 45px" src="~@/assets/logo.png" />
+								height: 80px;width: 80px" src="~@/assets/pet.png" />
 					<label style="font-weight: 500;
 								padding-left: 17px;
 								position: relative;
-								bottom: 20px;">宠物医院药品管理系统</label>
+								bottom: 33px;">宠物医院药品管理系统</label>
 				</el-col>
 				<el-col :span="24">
 					<el-col :span="4" class="userinfo">
@@ -190,7 +190,7 @@
 				font-size: 24px;
 				color: #fff;
 				position: absolute;
-				top: 22px;
+				top: 4px;
 			}
 			.logo-width{
 				width:268px;

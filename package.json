@@ -13,7 +13,7 @@
         "@tinymce/tinymce-vue": "^1.0.8",
         "axios": "^0.15.3",
         "echarts": "^3.3.2",
-        "element-ui": "^2.4.9",
+        "element-ui": "^2.8.2",
         "font-awesome": "^4.7.0",
         "jsencrypt": "^3.0.0-beta.1",
         "node-sass": "^4.10.0",
