@@ -116,6 +116,7 @@
 		mounted() {
 		    var that = this;
             this.$http.get(`/drug/getCurrentUser?timestamp=${(new Date()).getTime()}`).then(function (res) {
+				localStorage.setItem('user', JSON.stringify(res.data.resultValue))
 				that.sysUserName = res.data.resultValue.userAccount;
             })
             window.onresize = function temp() {

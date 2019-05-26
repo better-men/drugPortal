@@ -25,10 +25,17 @@ const router = new VueRouter({
     routes
 });
 router.beforeEach((to, from, next) => {
+    let user = localStorage.getItem('user')
     if (to.path) {
-
+        if (user.indexOf(to.path) > -1) {
+            next()
+        } else {
+            return ''
+        }
+    } else {
+        next()
     }
-    next()
+
 })
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['x-requested-with'] = 'XMLHttpRequest';
