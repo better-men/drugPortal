@@ -8,7 +8,7 @@
         </el-form>
     </el-col>
     <el-form ref="form" :rules="rules" :model="planInfo" label-position="right" @submit.prevent="onSubmit">
-        <el-form-item label="选择库存" label-width="200px" style="width: 460px" prop="repertoryId">
+        <el-form-item label="选择药品" label-width="200px" style="width: 460px" prop="repertoryId">
             <el-select v-model="planInfo.repertoryId" placeholder="请选择">
                 <el-option v-for="item in options" :key="item.repertoryId" :label="item.repertoryName" :value="item.repertoryId">
                 </el-option>

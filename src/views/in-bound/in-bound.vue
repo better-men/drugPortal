@@ -25,11 +25,11 @@
     </el-col>
     <!--列表-->
     <el-table :data="productList.slice((currentPage-1)*pagesize,currentPage*pagesize)" highlight-current-row v-loading="listLoading" style="width: 100%;">
-        <el-table-column prop="repertoryName" label="库存名称">
+        <el-table-column prop="repertoryName" label="药品名称">
         </el-table-column>
-        <el-table-column prop="repertoryClass" label="库存分类">
+        <el-table-column prop="repertoryClass" label="药品分类">
         </el-table-column>
-        <el-table-column prop="repertoryDesc" label="库存描述">
+        <el-table-column prop="repertoryDesc" label="药品适用症状">
         </el-table-column>
         <el-table-column prop="price" label="单价">
         </el-table-column>

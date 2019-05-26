@@ -17,7 +17,7 @@
             </el-form-item>
             <el-form-item style="float: right">
                 <div class="search-input">
-                    <el-input v-model="filters.name" placeholder="输入库存名称"></el-input>
+                    <el-input v-model="filters.name" placeholder="输入药品名称"></el-input>
                 </div>
             </el-form-item> -->
         </el-form>

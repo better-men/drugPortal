@@ -17,22 +17,22 @@
             </el-form-item>
             <el-form-item style="float: right">
                 <div class="search-input">
-                    <el-input v-model="filters.repertoryName" placeholder="输入库存名称"></el-input>
+                    <el-input v-model="filters.repertoryName" placeholder="输入药品名称"></el-input>
                 </div>
             </el-form-item>
             <!-- <el-form-item style="float: right">
-                <el-input v-model="filters.repertoryClass" placeholder="输入库存分类"></el-input>
+                <el-input v-model="filters.repertoryClass" placeholder="输入药品分类"></el-input>
             </el-form-item> -->
         </el-form>
 
     </el-col>
     <!--列表-->
     <el-table :data="productList.slice((currentPage-1)*pagesize,currentPage*pagesize)" highlight-current-row v-loading="listLoading" style="width: 100%;">
-        <el-table-column prop="repertoryName" label="库存名称">
+        <el-table-column prop="repertoryName" label="药品名称">
         </el-table-column>
-        <el-table-column prop="repertoryClass" label="库存分类">
+        <el-table-column prop="repertoryClass" label="药品分类">
         </el-table-column>
-        <el-table-column prop="repertoryDesc" label="库存描述">
+        <el-table-column prop="repertoryDesc" label="药品适用症状">
         </el-table-column>
         <el-table-column prop="repertoryNum" label="余量">
             <template slot-scope="scope">

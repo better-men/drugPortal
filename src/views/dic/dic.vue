@@ -256,9 +256,9 @@ export default {
             }, {
                 childDictionariesInfo: [],
                 code: "category",
-                description: "库存分类",
+                description: "药品分类",
                 id: "3",
-                name: "库存分类",
+                name: "药品分类",
                 orderSort: 3,
                 parentId: null,
                 status: "enabled"

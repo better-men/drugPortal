@@ -81,7 +81,7 @@ let routes = [{
                 path: '/outBoundInsert',
                 component: OutBoundInsert,
                 hidden: true,
-                name: '入库'
+                name: '出库'
             }
         ]
     },
@@ -155,11 +155,11 @@ let routes = [{
                 component: Authority,
                 name: '权限管理'
             },
-            {
-                path: '/dic',
-                component: Dic,
-                name: '数据字典'
-            }
+            // {
+            //     path: '/dic',
+            //     component: Dic,
+            //     name: '数据字典'
+            // }
         ]
     },
 

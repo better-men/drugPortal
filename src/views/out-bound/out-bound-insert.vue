@@ -8,7 +8,7 @@
         </el-form>
     </el-col>
     <el-form ref="form" :rules="rules" :model="outBound" label-position="right" @submit.prevent="onSubmit">
-        <el-form-item label="选择库存" label-width="200px" style="width: 460px">
+        <el-form-item label="选择药品" label-width="200px" style="width: 460px">
             <el-select v-model="outBound.repertoryId" placeholder="请选择">
                 <el-option v-for="item in options" :key="item.repertoryId" :label="item.repertoryName" :value="item.repertoryId">
                 </el-option>
@@ -18,7 +18,8 @@
             <el-input v-model="outBound.price"></el-input>
         </el-form-item>
         <el-form-item label="数量" label-width="200px" style="width: 460px">
-            <el-input v-model="outBound.boundNum"></el-input>
+            <el-input-number v-model="outBound.boundNum" min="1" :max="max"></el-input-number>
+            <!-- <el-input v-model="outBound.boundNum"></el-input> -->
         </el-form-item>
         <el-form-item label="产地" label-width="200px" style="width: 460px">
             <el-input v-model="outBound.address"></el-input>
@@ -73,7 +74,8 @@ export default {
                 }],
                 repertoryId: [{
                     required: true
-                }]
+                }],
+                max: 0
             }
         }
     },
@@ -81,6 +83,7 @@ export default {
         this.$nextTick(() => {
             allBound({}).then(data => {
                 this.options = data.data.resultValue
+                this.max = data.data.repertoryNum
             })
         })
     },

@@ -8,16 +8,16 @@
         </el-form>
     </el-col>
     <el-form ref="form" :rules="rules" :model="product" label-position="right" @submit.prevent="onSubmit" prop="repertoryClassId">
-        <el-form-item label="选择库存分类" label-width="200px" style="width: 460px">
+        <el-form-item label="选择药品分类" label-width="200px" style="width: 460px">
             <el-select v-model="product.repertoryClassId" placeholder="请选择">
                 <el-option v-for="item in options" :key="item.classId" :label="item.className" :value="item.classId">
                 </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="库存名称" label-width="200px" style="width: 460px" prop="repertoryName">
+        <el-form-item label="药品名称" label-width="200px" style="width: 460px" prop="repertoryName">
             <el-input v-model="product.repertoryName"></el-input>
         </el-form-item>
-        <el-form-item label="库存描述" label-width="200px" style="width: 460px">
+        <el-form-item label="药品适用症状" label-width="200px" style="width: 460px">
             <el-input type="textarea" v-model="product.repertoryDesc"></el-input>
         </el-form-item>
         <el-form-item label-width="200px" style="width: 460px">
