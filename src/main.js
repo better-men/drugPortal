@@ -1,4 +1,3 @@
-
 import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
@@ -24,33 +23,38 @@ Vue.config.productionTip = false
 const router = new VueRouter({
     routes
 });
-router.beforeEach((to, from, next) => {
-    let user = localStorage.getItem('user')
-    if (to.path) {
-        if (user.indexOf(to.path) > -1) {
-            next()
-        } else {
-            return ''
-        }
-    } else {
-        next()
-    }
-
-})
+// router.beforeEach((to, from, next) => {
+//     let user = localStorage.getItem('user')
+//     if (to.path === '/login') {
+//         next()
+//     } else if (to.path) {
+//         if (user && user.indexOf(to.path) > -1) {
+//             next()
+//         } else {
+//             next({
+//                 path: '/login'
+//             })
+//             return ''
+//         }
+//     } else {
+//         next()
+//     }
+//
+// })
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['x-requested-with'] = 'XMLHttpRequest';
 
 
-Date.prototype.Format = function (fmt) { //author: meizz
+Date.prototype.Format = function(fmt) { //author: meizz
     var o = {
-        "M+": this.getMonth() + 1,                 //月份
-        "d+": this.getDate(),                    //日
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
         "h+": this.getHours(),
-        "H+": this.getHours(),                  //小时
-        "m+": this.getMinutes(),                 //分
-        "s+": this.getSeconds(),                 //秒
+        "H+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
         "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds()             //毫秒
+        "S": this.getMilliseconds() //毫秒
     };
     if (/(y+)/.test(fmt))
         fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
@@ -60,9 +64,9 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 };
 
-window.JsonObjectClone = function (obj, ignorePropertyNames) {
+window.JsonObjectClone = function(obj, ignorePropertyNames) {
     if (obj) {
-        return JSON.parse(JSON.stringify(obj, function (key, value) {
+        return JSON.parse(JSON.stringify(obj, function(key, value) {
             if (key == "$$hashKey") {
                 return undefined;
             }
@@ -92,7 +96,7 @@ window.JsonObjectClone = function (obj, ignorePropertyNames) {
     }
 };
 
-window.isNullOrEmpty = function (val) {
+window.isNullOrEmpty = function(val) {
     if (val === null || val === undefined) return true;
     else if (val === true) return true;
     else if (val === false) return false;
@@ -107,25 +111,43 @@ router.beforeEach((to, from, next) => {
     //NProgress.start();
     if (to.path == '/login') {
         next()
-    }else{
-        axios.get("/drug/getCurrentUser").then(function (res) {
+    } else {
+        axios.get("/drug/getCurrentUser").then(function(res) {
             let user = null;
+            let menuInfo = null
             if (!isNullOrEmpty(res.data.resultValue.userAccount)) {
+                localStorage.setItem('user', JSON.stringify(res.data.resultValue))
                 user = res.data.resultValue.userAccount;
             }
-            if (!user && to.path != '/login') {
-                next({ path: '/login' })
-            } else {
-                next()
-            }
-        }).catch(function (error) {
-            next({ path: '/login' })
+            axios.get('/drug/user/list').then((data) => {
+                menuInfo = data.data.resultValue.find(el => el.userId === res.data.resultValue.userId).role
+                localStorage.setItem('menuInfo', menuInfo)
+                if (!user && to.path != '/login') {
+                    next({
+                        path: '/login'
+                    })
+                } else {
+                    if ((menuInfo && menuInfo.indexOf(to.path) > -1) || (to.path.indexOf('Edit') > -1 || to.path.indexOf('Insert') > -1)) {
+                        next()
+                    } else {
+                        // Vue.message('该页面无法访问！')
+                        next({
+                            path: from.path
+                        })
+                        return ''
+                    }
+                }
+            })
+        }).catch(function(error) {
+            next({
+                path: '/login'
+            })
         });
     }
 })
 
 
-Array.prototype.del = function (index) {
+Array.prototype.del = function(index) {
     if (isNaN(index) || index >= this.length) {
         return false;
     }
@@ -141,6 +163,8 @@ Array.prototype.del = function (index) {
 new Vue({
     el: '#app',
     router,
-    components: { App },
+    components: {
+        App
+    },
     template: '<App/>'
 })

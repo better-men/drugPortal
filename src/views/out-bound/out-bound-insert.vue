@@ -9,7 +9,7 @@
     </el-col>
     <el-form ref="form" :rules="rules" :model="outBound" label-position="right" @submit.prevent="onSubmit">
         <el-form-item label="选择药品" label-width="200px" style="width: 460px">
-            <el-select v-model="outBound.repertoryId" placeholder="请选择">
+            <el-select v-model="outBound.repertoryId" placeholder="请选择" @change="repertoryChange">
                 <el-option v-for="item in options" :key="item.repertoryId" :label="item.repertoryName" :value="item.repertoryId">
                 </el-option>
             </el-select>
@@ -83,11 +83,14 @@ export default {
         this.$nextTick(() => {
             allBound({}).then(data => {
                 this.options = data.data.resultValue
-                this.max = data.data.repertoryNum
+                // this.max = data.data.repertoryNum
             })
         })
     },
     methods: {
+        repertoryChange() {
+            this.max = this.options.find(el => el.repertoryId === this.outBound.repertoryId).repertoryNum
+        },
         submitForm() {
             this.$refs['form'].validate((valid) => {
                 if (valid) {

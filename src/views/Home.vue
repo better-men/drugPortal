@@ -17,6 +17,7 @@
 							<span class="el-dropdown-link userinfo-inner">{{sysUserName}}</span>
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+								<el-dropdown-item @click.native="changePsw">修改密码</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
 					</el-col>
@@ -46,7 +47,7 @@
 									<i :class="item.iconCls"></i>
 									<span slot="title">{{item.name}}</span>
 								</template>
-								<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
+								<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden && menuInfo.indexOf(child.path) > -1">{{child.name}}</el-menu-item>
 							</el-submenu>
 							<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path">
 								<i :class="item.iconCls"></i>
@@ -76,6 +77,7 @@
 	export default {
 		data() {
 			return {
+				menuInfo: '',
 				sysName:'新青工业园',
                 isCollapse: false,
 				sysUserName: '',
@@ -111,6 +113,15 @@
 			//折叠导航栏
 			collapse:function(){
 				this.isCollapse=!this.isCollapse;
+			},
+			changePsw() {
+				let user = JSON.parse(localStorage.getItem('user'))
+				this.$router.push({
+					path: '/userEdit',
+					query: {
+						user: user
+					}
+				})
 			}
 		},
 		mounted() {
@@ -127,6 +138,9 @@
                     that.isCollapse=false;
 				}
             };
+		},
+		created() {
+			this.menuInfo = localStorage.getItem('menuInfo')
 		}
 
 		//21号下午广州--21号晚上珠海--22号凌晨西安--22号早上到汉中    汉中--西安  西安--珠海  珠海--广州

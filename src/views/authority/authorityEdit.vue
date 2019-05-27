@@ -28,10 +28,11 @@ export default {
     methods: {
         getParams() {
             this.user = this.$route.query.user
-            console.log(this.user)
+            if (!this.user) {
+                this.$router.back()
+            }
         },
         submitForm() {
-            console.log(this.$refs.tree.getCheckedKeys().filter(e => e !== '/'))
             let list = this.$refs.tree.getCheckedKeys().filter(e => e !== '/')
             updateAuthority({userId: this.user.userId, menuName: list.join(',')}).then(data => {
                 if (data.data.resultDesc === "SUCCESS") {

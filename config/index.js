@@ -41,7 +41,7 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/drug/': {
-                target: 'http://101.132.109.63:8080/drug/',
+                target: 'http://10.200.54.19:8081/',
                 // target: 'http://localhost:8080',
                 changeOrigin: true,
                 //路径重写

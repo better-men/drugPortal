@@ -40,7 +40,6 @@ export default {
               "userAccount":that.userAccount,
               "password":that.password
           }).then(data => {
-              console.log(data);
               if (data.data.resultCode === 200){
                   if (data.data.resultValue){
                       sessionStorage.setItem('user', data.data.resultValue.userAccount);
@@ -48,8 +47,8 @@ export default {
                   }
               } else{
                   this.$message({
-                      message: data.data.message,
-                      type: 'Danger'
+                      message: '用户名或密码错误',
+                      type: 'warning'
                   })
               }
 
