@@ -39,6 +39,11 @@
         </el-table-column>
         <el-table-column prop="supplier" label="供应商">
         </el-table-column>
+        <el-table-column prop="purchaseStatus" label="采购状态">
+            <template slot-scope="scope">
+                <span>{{scope.row.purchaseStatus === 0 ? '未采购':'已采购'}}</span>
+            </template>
+        </el-table-column>
         <el-table-column prop="createdTime" width="180" label="创建时间">
             <template slot-scope="scope">
               <span>{{scope.row.createdTime.substr(0, 11)}}</span>
@@ -46,10 +51,11 @@
         </el-table-column>
         <el-table-column prop="createdBy" label="创建人">
         </el-table-column>
-        <el-table-column label="操作" width="80">
+        <el-table-column label="操作" width="200">
             <template slot-scope="scope" style="display: flex">
                 <!-- <el-button type="primary" size="small" v-on:click="editroductType(scope.row)">编辑</el-button> -->
                 <el-button type="danger" size="small" v-on:click="deleteProductType(scope.row.orderId)">删除</el-button>
+                <el-button type="primary" size="small" v-on:click="changeStatus(scope.row)" v-if="scope.row.purchaseStatus === 0">设为已采购</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -62,7 +68,8 @@
 import {
     allPurchaseOrder,
     allBound,
-    deletePurchaseOrder
+    deletePurchaseOrder,
+    updatePurchaseOrder
 } from '../../api/api'
 export default {
     data() {
@@ -83,6 +90,15 @@ export default {
         };
     },
     methods: {
+        changeStatus(row) {
+            updatePurchaseOrder(Object.assign({}, row, {
+                purchaseStatus: 1
+            })).then(data => {
+                if (data.data.resultDesc === "SUCCESS") {
+                    this.getProduct();
+                }
+            })
+        },
         getProduct: function() {
             allPurchaseOrder().then(data => {
                 this.productList = data.data.resultValue;

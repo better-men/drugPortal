@@ -42,9 +42,9 @@
         </el-table-column>
         <el-table-column prop="planNum" label="建议采购数量">
         </el-table-column>
-        <el-table-column prop="planDate" label="采购状态">
+        <el-table-column prop="purchaseStatus" label="采购状态">
             <template slot-scope="scope">
-                <span>{{scope.row.purchaseStatus === 0 ? '代采购':'已采购'}}</span>
+                <span>{{scope.row.purchaseStatus === 0 ? '未转采购':'已转采购'}}</span>
             </template>
         </el-table-column>
         <el-table-column prop="createdTime" width="180" label="创建时间">
