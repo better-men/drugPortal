@@ -92,9 +92,11 @@ export default {
     methods: {
         changeStatus(row) {
             updatePurchaseOrder(Object.assign({}, row, {
-                purchaseStatus: 1
+                purchaseStatus: 1,
+                isDeleted: 0
             })).then(data => {
                 if (data.data.resultDesc === "SUCCESS") {
+                    this.$message.success('操作成功')
                     this.getProduct();
                 }
             })
