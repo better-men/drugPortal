@@ -24,7 +24,7 @@
         <el-form-item label="产地" label-width="200px" style="width: 460px">
             <el-input v-model="outBound.address"></el-input>
         </el-form-item>
-        <el-form-item label="入库描述" label-width="200px" style="width: 460px">
+        <el-form-item label="出库描述" label-width="200px" style="width: 460px">
             <el-input type="textarea" v-model="outBound.boundDesc"></el-input>
         </el-form-item>
         <el-form-item label-width="200px" style="width: 460px">
