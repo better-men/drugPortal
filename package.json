@@ -16,7 +16,7 @@
         "element-ui": "^2.8.2",
         "font-awesome": "^4.7.0",
         "jsencrypt": "^3.0.0-beta.1",
-        "node-sass": "^4.10.0",
+        "node-sass": "^4.13.1",
         "nprogress": "^0.2.0",
         "tinymce": "^4.7.4",
         "vue": "^2.2.2",
